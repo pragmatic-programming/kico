@@ -1,0 +1,44 @@
+{
+  "name": "kico-core",
+  "version": "1.0.0",
+  "description": "Kieler Compiler Core in TypeScript",
+  "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
+  "keywords": [
+    "vscode",
+    "compilation",
+    "kico",
+    "kico-core"
+  ],
+  "homepage": "https://github.com/ssmifi/kico-core",
+  "bugs": "https://github.com/ssmifi/kico-core/issues",
+  "author": {
+    "name": "ssmifi"
+  },
+  "contributors": [
+    {
+      "name": "ssmifi",
+      "url": "https://github.com/ssmifi"
+    }  
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ssmifi/kico-core.git"
+  },
+  "files": [
+    "lib",
+    "src",
+    "css"
+  ],
+  "main": "lib/index",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "rimraf": "latest"
+  },
+  "scripts": {
+    "prepare": "yarn run clean && yarn run build",
+    "clean": "rimraf lib",
+    "build": "tsc -d",
+    "watch": "tsc -w"
+  }
+}

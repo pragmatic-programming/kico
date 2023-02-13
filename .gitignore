@@ -1,0 +1,8 @@
+out
+dist
+lib
+node_modules
+.vscode-test/
+*.vsix
+*.lock
+*.js

@@ -1,2 +1,3 @@
-# kico
-Kieler Compiler in TypeScript
+# KiCo Core
+
+Kieler Compiler Core in TypeScript
