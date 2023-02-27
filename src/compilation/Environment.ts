@@ -26,7 +26,9 @@ class Environment extends PropertyHolder {
         var newEnv = new Environment();
         
         for (const k in this.properties) {
-            if (typeof this.properties[k] == "object" && this.properties[k] !== null) {
+            if (Array.isArray(this.properties[k])) {
+                newEnv.properties[k] = this.cloneArray(this.properties[k]);
+            } else if (typeof this.properties[k] == "object" && this.properties[k] !== null) {
                 newEnv.properties[k] = this.cloneObject(this.properties[k]);
             } else {
                 newEnv.properties[k] = this.properties[k];
@@ -36,10 +38,26 @@ class Environment extends PropertyHolder {
         return newEnv;
     }
 
+    cloneArray(array: any[]): any[] {
+        let newArray = [] as any[];
+        for (let i = 0; i < array.length; i++) {
+            if (Array.isArray(array[i])) {
+                newArray[i] = this.cloneArray(array[i]);
+            } else if (typeof array[i] == "object" && array[i] !== null) {
+                newArray[i] = this.cloneObject(array[i]);
+            } else {
+                newArray[i] = array[i];
+            }
+        }
+        return newArray;
+    }
+
     cloneObject(object: Object):Object {
         let newObj = {};
         for (const k in object) {
-            if (typeof object[k] == "object" && object[k] !== null) {
+            if (Array.isArray(object[k])) {
+                newObj[k] = this.cloneArray(object[k]);
+            } else if (typeof object[k] == "object" && object[k] !== null) {
                 newObj[k] = this.cloneObject(object[k]);
             } else {
                 newObj[k] = object[k];
