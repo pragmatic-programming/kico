@@ -21,7 +21,7 @@ export interface IExternalWrapperProcess {
     process(sourceModel: string, properties: {}): any;
 }
 
- export class ExternalWrapperProcessor extends Processor<any, any> {
+export class ExternalWrapperProcessor extends Processor<any, any> {
      
     public static readonly EXTERNAL_PROPERTIES: Property<{}> = new Property<{}>("kico.externalWrapper.properties");
     public static readonly EXTERNAL_PROCESS: Property<any> = new Property<any>("kico.externalWrapper.process");

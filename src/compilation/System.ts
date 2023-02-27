@@ -14,12 +14,12 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { ProcessorBase } from "./ProcessorBase";
+import { Processor } from "./Processor";
 
 type SystemEntry = SystemEntryProcessor | SystemEntrySystem;
 
 interface SystemEntryProcessor {
-    processor: typeof ProcessorBase;
+    processor: typeof Processor;
 }
 
 interface SystemEntrySystem {
@@ -44,7 +44,7 @@ class System {
     }
 }
 
-function createSystem(id: string, ...processors: typeof ProcessorBase[]): System {
+function createSystem(id: string, ...processors: typeof Processor<any, any>[]): System {
     let systemEntries: SystemEntry[] = [];
     for (const p of processors) {
         systemEntries.push({ processor: p } as SystemEntryProcessor)

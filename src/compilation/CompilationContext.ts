@@ -16,14 +16,14 @@
 
 import { Environment } from "./Environment";
 import { System, isSystemEntryProcessor, SystemEntryProcessor, SystemEntrySystem } from "./System";
-import { ProcessorBase } from "./ProcessorBase";
+import { Processor } from "./Processor";
 
 class CompilationContext {
 
     system: System;
     environment: Environment;
     startEnvironment: Environment;
-    processors: ProcessorBase[];
+    processors: Processor<any,any>[];
 
     constructor(system: System) {
         this.system = system;

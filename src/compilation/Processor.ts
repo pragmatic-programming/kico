@@ -14,10 +14,34 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { ProcessorBase } from "./ProcessorBase";
 import { Environment } from "./Environment";
+import { Property } from "./PropertyHolder";
 
-export class Processor<Source, Target> extends ProcessorBase {
+export class Processor<Source, Target> {
+
+    environment: Environment;
+
+    constructor() {
+        this.environment = new Environment();
+    }
+
+    getId(): string { return ""; }
+
+    getName(): string { return ""; }
+
+    process() {};
+
+    protected getProperty<T>(property: Property<T>): T | undefined {
+        return this.environment.getProperty(property);
+    }
+
+    protected setProperty<T>(property: Property<T>, value: T) {
+        this.environment!.setProperty(property, value);
+    }  
+    
+    protected setPropertyUnsafe<T>(property: Property<T>, value: any) {
+        this.environment!.setPropertyAny(property.id, value);
+    }
 
     protected getModel(): Source {
         return this.getProperty(Environment.SOURCE_MODEL) as Source;

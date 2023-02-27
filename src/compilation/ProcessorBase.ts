@@ -17,7 +17,7 @@
 import { Environment } from "./Environment";
 import { Property } from "./PropertyHolder";
 
-export class ProcessorBase {
+export class ProcessorBase<S, T> {
 
     environment: Environment;
 

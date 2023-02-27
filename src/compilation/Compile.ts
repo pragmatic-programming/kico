@@ -18,7 +18,6 @@ import { CompilationContext } from "./CompilationContext";
 import { System, createSystem } from "./System";
 import { Environment } from "./Environment";
 import { Processor } from "./Processor";
-import { ProcessorBase } from "./ProcessorBase";
 import { ExternalWrapperProcessor } from "../processors/ExternalWrapperProcessor";
 
 function createCompilationContext(sourceModel: any, system: System): CompilationContext {
@@ -30,11 +29,11 @@ function createCompilationContext(sourceModel: any, system: System): Compilation
     return context;
 }
 
-function createCompilationContextFromProcessors(sourceModel: any, ...processors: typeof ProcessorBase[]): CompilationContext {
+function createCompilationContextFromProcessors(sourceModel: any, ...processors: typeof Processor<any, any>[]): CompilationContext {
     return createCompilationContext(sourceModel, createSystem("kico.system.auto", ...processors));
 }
 
-function compileProcessesorAndReturnResult(sourceModel: any, properties: {}, ...processors: typeof ProcessorBase[]): any {
+function compileProcessesorAndReturnResult(sourceModel: any, properties: {}, ...processors: typeof Processor<any, any>[]): any {
     let cc = createCompilationContextFromProcessors(sourceModel, ...processors);
     for (var key of Object.keys(properties)) {
         cc.environment.setPropertyAny(key, properties[key]);
