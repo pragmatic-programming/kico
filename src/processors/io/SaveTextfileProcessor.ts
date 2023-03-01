@@ -1,3 +1,7 @@
+import * as fs from 'fs';
+import { Processor } from "../../compilation/Processor";
+import { Property } from '../../compilation/PropertyHolder';
+
 /********************************************************************************
  * Copyright (c) 2022 ssm.
  *
@@ -14,19 +18,29 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Processor } from "../compilation/Processor";
+export class SaveTextfileProcessor extends Processor<string, string> {
 
-export class ConsoleLog extends Processor<any, any> {
+    public static readonly SAVE_FILENAME: Property<string> = new Property<string>("kico.save.filename");
 
     getId(){
-        return "kico.console.log";
+        return "kico.save"
     }
 
     getName(){
-        return "Console Log";
+        return "Save Textfile"
     }
 
     process() {
-        console.log(this.getModel());
+        const model = this.getModel();
+        
+        fs.writeFileSync(this.getFilename(), model, { flag:'w' })
+    }
+
+    setFilename(s: string): void {
+        this.setProperty(SaveTextfileProcessor.SAVE_FILENAME, s)
+    }
+
+    getFilename():string {
+        return this.getProperty(SaveTextfileProcessor.SAVE_FILENAME)!
     }
 }

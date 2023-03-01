@@ -14,8 +14,8 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Processor } from "../compilation/Processor";
-import { Property } from "../compilation/PropertyHolder";
+import { Processor } from "../../compilation/Processor";
+import { Property } from "../../compilation/PropertyHolder";
 
 export interface IExternalWrapperProcess {
     process(sourceModel: string, properties: {}): any;

@@ -14,7 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import { Processor } from "../compilation/Processor";
+import { Processor } from "../../compilation/Processor";
 
 export class Rot13 extends Processor<string, string> {
 

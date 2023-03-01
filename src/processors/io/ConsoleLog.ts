@@ -14,22 +14,19 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-import * as fs from 'fs';
-import { Processor } from "../compilation/Processor";
+import { Processor } from "../../compilation/Processor";
 
-export class LoadTextfileProcessor extends Processor<string, string> {
+export class ConsoleLog extends Processor<any, any> {
 
     getId(){
-        return "kico.load"
+        return "kico.console.log";
     }
 
     getName(){
-        return "Load Textfile"
+        return "Console Log";
     }
 
     process() {
-        const model = this.getModel();
-        var s = fs.readFileSync(model, 'utf8');
-        this.setModel(s);
+        console.log(this.getModel());
     }
 }

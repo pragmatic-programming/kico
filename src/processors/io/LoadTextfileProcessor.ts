@@ -1,7 +1,3 @@
-import * as fs from 'fs';
-import { Processor } from "../compilation/Processor";
-import { Property } from '../compilation/PropertyHolder';
-
 /********************************************************************************
  * Copyright (c) 2022 ssm.
  *
@@ -18,29 +14,22 @@ import { Property } from '../compilation/PropertyHolder';
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-export class SaveTextfileProcessor extends Processor<string, string> {
+import * as fs from 'fs';
+import { Processor } from "../../compilation/Processor";
 
-    public static readonly SAVE_FILENAME: Property<string> = new Property<string>("kico.save.filename");
+export class LoadTextfileProcessor extends Processor<string, string> {
 
     getId(){
-        return "kico.save"
+        return "kico.load"
     }
 
     getName(){
-        return "Save Textfile"
+        return "Load Textfile"
     }
 
     process() {
         const model = this.getModel();
-        
-        fs.writeFileSync(this.getFilename(), model, { flag:'w' })
-    }
-
-    setFilename(s: string): void {
-        this.setProperty(SaveTextfileProcessor.SAVE_FILENAME, s)
-    }
-
-    getFilename():string {
-        return this.getProperty(SaveTextfileProcessor.SAVE_FILENAME)!
+        var s = fs.readFileSync(model, 'utf8');
+        this.setModel(s);
     }
 }

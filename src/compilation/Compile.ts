@@ -18,7 +18,7 @@ import { CompilationContext } from "./CompilationContext";
 import { System, createSystem } from "./System";
 import { Environment } from "./Environment";
 import { Processor } from "./Processor";
-import { ExternalWrapperProcessor } from "../processors/ExternalWrapperProcessor";
+import { ExternalWrapperProcessor } from "../processors/core/ExternalWrapperProcessor";
 
 function createCompilationContext(sourceModel: any, system: System): CompilationContext {
     const context = new CompilationContext(system);
