@@ -15,7 +15,6 @@
  ********************************************************************************/
 
 import { Processor } from "../../compilation/Processor";
-import { ConsoleLog } from "../io/ConsoleLog";
 import { Environment } from "../../compilation/Environment";
 
 /*
@@ -39,9 +38,6 @@ export class Sum extends Processor<number[], number> {
 
     process() {
         let model = this.environment.getProperty(Environment.SOURCE_MODEL) as number[];
-        if (process.argv.length > 2) {
-            model = process.argv[2].slice(1, -1).split(",").map(n => parseInt(n));
-        }
         const sum = Array.from(model).reduce(
             (accumulator, currentValue) => accumulator + currentValue, 0
         )
