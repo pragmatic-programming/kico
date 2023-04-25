@@ -33,10 +33,10 @@
   "dependencies": {
   },
   "devDependencies": {
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "typescript": "^4.9.5"
   },
   "scripts": {
-    "prepare": "yarn run clean && yarn run build",
     "clean": "rimraf lib",
     "build": "tsc -d",
     "watch": "tsc -w"
