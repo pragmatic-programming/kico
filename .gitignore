@@ -6,3 +6,4 @@ node_modules
 *.vsix
 *.lock
 *.js
+!jest.config.js
