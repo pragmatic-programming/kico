@@ -33,6 +33,7 @@
   "dependencies": {
   },
   "devDependencies": {
+    "@types/node": "^18.15.3",
     "rimraf": "latest",
     "typescript": "^4.9.5"
   },
