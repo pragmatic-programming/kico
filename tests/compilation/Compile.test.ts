@@ -1,7 +1,11 @@
 import { createCompilationContextFromProcessors, Identity } from "../../src";
 
 test('createCompilationContextFromProcessors', () => {
-    const context = createCompilationContextFromProcessors("sourceModel", Identity);
+    //given
+    let sourceModel = "sourceModel";
+    //when
+    const context = createCompilationContextFromProcessors(sourceModel, Identity);
     context.compile()
-    expect(context.getResult()).toBe("sourceModel")
+    //then
+    expect(context.getResult()).toBe(sourceModel)
 });
