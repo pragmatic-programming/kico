@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { createCompilationContextFromProcessors } from "../compilation/Compile";
-import { Commandline } from "../processors/io/CommandLine";
+import { Commandline } from "../processors/io/Commandline";
 import { ConsoleLog } from "../processors/io/ConsoleLog";
 import { Sum } from "../processors/misc/Sum";
 
