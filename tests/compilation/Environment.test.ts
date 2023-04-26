@@ -14,3 +14,18 @@ test("clone", () => {
     expect(cloned).toEqual(environment);
 });
 
+test("shiftSourceModel", () => {
+    //given
+    const environment = new Environment();
+    let value = "test";
+    environment.setProperty(Environment.MODEL, value)
+    let initialSourceModel = environment.getProperty(Environment.SOURCE_MODEL);
+    expect(initialSourceModel).toBeUndefined();
+    //when
+    environment.shiftSourceModel();
+    //then
+    let sourceModel = environment.getProperty(Environment.SOURCE_MODEL);
+    let model = environment.getProperty(Environment.MODEL);
+    expect(sourceModel).toEqual(value);
+    expect(model).toEqual(value);
+});
