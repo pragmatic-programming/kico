@@ -18,7 +18,14 @@ import { createCompilationContextFromProcessors } from "../compilation/Compile";
 import { ConsoleLog } from "../processors/io/ConsoleLog";
 import { BFInterpreter } from "../processors/misc/BFInterpreter";
 
-const quotes : string[] = [
+const codes : string[] = [
+    // A
+    "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.",
+    
+    // AA (looped)
+    "++++++++[>++++++++<-]>+..",
+
+    // Movie Quote
     "+[--->++<]>+++.[->+++++++<]>.++++++.-[---->+<]>+++.++[->++<]>.[--->+<]>" +
     "+++.-.[++>---<]>++.[->+++<]>-.[---->+<]>+++.+++++[->++<]>.-[----->+<]>." +
     "--.+.[---->+<]>+++.---[->+++<]>.++++++++++.+++++++++++.-.-[++>---<]>+.+" +
@@ -29,5 +36,7 @@ const quotes : string[] = [
     "+++++++.--------.[->+++++<]>." 
 ]
 
-const context = createCompilationContextFromProcessors(quotes[0], BFInterpreter, ConsoleLog);
-context.compile();
+for (let i = 0; i < codes.length; i++) {
+    const context = createCompilationContextFromProcessors(codes[i], BFInterpreter, ConsoleLog);
+    context.compile();
+}

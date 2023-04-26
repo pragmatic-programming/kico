@@ -8,7 +8,7 @@
 		],
 		"outDir": "lib",
 		"sourceMap": true,
-		"rootDir": "src",
+		"rootDir": "./",
 		"strict": true,   /* enable all strict type-checking options */
 		/* Additional Checks */
 		"suppressImplicitAnyIndexErrors": true,

@@ -44,9 +44,15 @@ export class BFInterpreter extends Processor<string, string> {
                     break;
                 case '+':
                     memory[memoryPtr]++;
+                    if (memory[memoryPtr] > 255) {
+                        memory[memoryPtr] = 0;
+                    }
                     break;
                 case '-':
                     memory[memoryPtr]--;
+                    if (memory[memoryPtr] < 0) {
+                        memory[memoryPtr] = 255;
+                    }
                     break;
                 case '.':
                     output += String.fromCharCode(memory[memoryPtr]);
@@ -85,4 +91,6 @@ export class BFInterpreter extends Processor<string, string> {
         }
         return output;
     }
+
+
 }
