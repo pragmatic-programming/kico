@@ -17,15 +17,26 @@ test("clone", () => {
 test("shiftSourceModel", () => {
     //given
     const environment = new Environment();
-    let value = "test";
+    const value = "test";
     environment.setProperty(Environment.MODEL, value)
-    let initialSourceModel = environment.getProperty(Environment.SOURCE_MODEL);
+    const initialSourceModel = environment.getProperty(Environment.SOURCE_MODEL);
     expect(initialSourceModel).toBeUndefined();
     //when
     environment.shiftSourceModel();
     //then
-    let sourceModel = environment.getProperty(Environment.SOURCE_MODEL);
-    let model = environment.getProperty(Environment.MODEL);
+    const sourceModel = environment.getProperty(Environment.SOURCE_MODEL);
+    const model = environment.getProperty(Environment.MODEL);
     expect(sourceModel).toEqual(value);
     expect(model).toEqual(value);
+});
+
+test("getResult", () => {
+    //given
+    const environment = new Environment();
+    const value = "test";
+    environment.setProperty(Environment.MODEL, value)
+    //when
+    const result = environment.getResult();
+    //then
+    expect(result).toEqual(value);
 });
