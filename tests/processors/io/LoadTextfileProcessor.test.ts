@@ -3,7 +3,7 @@ import { Environment, LoadTextfileProcessor } from "../../../src";
 
 
 test('process', () => {
-    //given
+    // given
     const folderName = 'folderName';
     const fileName = 'index.md';
     const expectedContent = '# Hello world!';
@@ -15,9 +15,9 @@ test('process', () => {
     const loadTextfileProcessor = new LoadTextfileProcessor();
     const filePath = folderName + '/' + fileName;
     loadTextfileProcessor.environment.setProperty(Environment.SOURCE_MODEL, filePath);
-    //when
+    // when
     loadTextfileProcessor.process()
-    //then
+    // then
     let actualContent = loadTextfileProcessor.environment.getResult();
     expect(actualContent).toEqual(expectedContent);
     mock.restore();

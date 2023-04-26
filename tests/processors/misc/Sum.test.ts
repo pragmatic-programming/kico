@@ -2,13 +2,12 @@ import { Environment, Identity } from "../../../src";
 import { Sum } from "../../../src/processors/misc/Sum";
 
 test('process', () => {
-    //given
+    // given
     const sum = new Sum();
     const sourceModel = [1,2]
-    sum.environment.setProperty(Environment.ORIGINAL_MODEL, sourceModel);
     sum.environment.setProperty(Environment.SOURCE_MODEL, sourceModel);
-    //when
+    // when
     sum.process()
-    //then
+    // then
     expect(sum.environment.getResult()).toBe(3)
 });

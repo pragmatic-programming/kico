@@ -1,12 +1,12 @@
 import { Environment, Identity } from "../../../src";
 
 test('process', () => {
-    //given
+    // given
     const identity = new Identity();
     const sourceModel = "sourceModel"
     identity.environment.setProperty(Environment.MODEL, sourceModel);
-    //when
+    // when
     identity.process()
-    //then
+    // then
     expect(identity.environment.getResult()).toBe(sourceModel)
 });

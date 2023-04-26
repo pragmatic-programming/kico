@@ -4,7 +4,7 @@ import * as fs from 'fs';
 
 
 test('process', () => {
-    //given
+    // given
     const folderName = 'folderName';
     const fileName = 'index.md';
     mock({
@@ -17,10 +17,9 @@ test('process', () => {
     const expectedContent = '# Hello world!';
     saveTextfileProcessor.setFilename(filePath)
     saveTextfileProcessor.environment.setProperty(Environment.SOURCE_MODEL, expectedContent);
-    saveTextfileProcessor.environment.setProperty(Environment.MODEL, expectedContent);
-    //when
+    // when
     saveTextfileProcessor.process()
-    //then
+    // then
     let actualContent = fs.readFileSync(filePath, 'utf8');
     expect(actualContent).toBe(expectedContent);
     mock.restore();

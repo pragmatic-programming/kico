@@ -13,12 +13,12 @@ class FakeExternalWrapperProcess implements IExternalWrapperProcess {
 }
 
 test('process', () => {
-    //given
+    // given
     const externalWrapperProcessor = new ExternalWrapperProcessor();
     const result = "result";
     externalWrapperProcessor.loadExternalProcess(new FakeExternalWrapperProcess(result));
-    //when
+    // when
     externalWrapperProcessor.process()
-    //then
+    // then
     expect(externalWrapperProcessor.environment.getResult()).toBe(result)
 });
