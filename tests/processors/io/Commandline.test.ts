@@ -1,11 +1,11 @@
 import { Commandline } from "../../../src/processors/io/Commandline";
 
 test('process', () => {
-    //given
+    // given
     const commandline = new Commandline<number>();
     process.argv = ["1", "2", "3"]
-    //when
+    // when
     commandline.process()
-    //then
+    // then
     expect(commandline.environment.getResult()).toEqual(3);
 });
