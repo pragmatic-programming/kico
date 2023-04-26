@@ -23,6 +23,9 @@ export class Processor<Source, Target> {
 
     constructor() {
         this.environment = new Environment();
+
+        if (this.getId() == "") throw new Error("Processor must have an id");
+        if (this.getName() == "") throw new Error("Processor must have a name");
     }
 
     getId(): string { return ""; }
