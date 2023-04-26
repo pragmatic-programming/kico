@@ -18,7 +18,6 @@ export * from './compilation/CompilationContext';
 export * from './compilation/Compile';
 export * from './compilation/Environment';
 export * from './compilation/Processor';
-export * from './compilation/ProcessorBase';
 export * from './compilation/PropertyHolder';
 export * from './compilation/Snapshots';
 export * from './compilation/System';
