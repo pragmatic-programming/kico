@@ -1,21 +1,21 @@
 import {compileProcessesorAndReturnResult, createCompilationContextFromProcessors, Identity} from "../../src";
 
 test("createCompilationContextFromProcessors", () => {
-    //given
+    // given
     const sourceModel = "sourceModel";
-    //when
+    // when
     const context = createCompilationContextFromProcessors(sourceModel, Identity);
     context.compile();
-    //then
+    // then
     expect(context.getResult()).toBe(sourceModel);
 });
 
 test("compileProcessesorAndReturnResult", () => {
-    //given
+    // given
     const expectedSourceModel = "sourceModel";
     const properties = {foo: "bar"};
-    //when
+    // when
     const actualSourceModel = compileProcessesorAndReturnResult(expectedSourceModel, properties, Identity);
-    //then
+    // then
     expect(actualSourceModel).toBe(expectedSourceModel);
 });
