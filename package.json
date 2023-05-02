@@ -29,7 +29,7 @@
     "src",
     "css"
   ],
-  "main": "lib/index",
+  "main": "lib/src/index",
   "devDependencies": {
     "@types/jest": "^29.5.1",
     "@types/mock-fs": "^4.13.1",
