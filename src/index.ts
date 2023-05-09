@@ -24,6 +24,7 @@ export * from './compilation/System';
 export * from './processors/core/Identity';
 export * from './processors/io/ConsoleLog';
 export * from './processors/misc/Rot13';
+export * from './processors/misc/Sum';
 export * from './processors/io/LoadTextfileProcessor';
 export * from './processors/io/SaveTextfileProcessor';
 export * from './processors/core/ExternalWrapperProcessor';
