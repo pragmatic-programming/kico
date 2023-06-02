@@ -20,7 +20,7 @@ import { Property } from '../../compilation/PropertyHolder';
 
 export class SaveTextfileProcessor extends Processor<string, string> {
 
-    public static readonly SAVE_FILENAME: Property<string> = new Property<string>("kico.save.filename");
+    public static readonly SAVE_FILENAME: Property<string> = new Property<string>("kico.save.filename", "src-gen");
 
     getId(){
         return "kico.save"

@@ -18,9 +18,9 @@ import { PropertyHolder, Property } from "./PropertyHolder";
 
 class Environment extends PropertyHolder {
 
-    public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel");
-    public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel");
-    public static readonly MODEL: Property<any> = new Property<any>("kico.model");
+    public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel", undefined);
+    public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", undefined);
+    public static readonly MODEL: Property<any> = new Property<any>("kico.model", undefined);
 
     clone(): Environment {
         var newEnv = new Environment();
