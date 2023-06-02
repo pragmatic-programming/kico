@@ -16,9 +16,9 @@
 
 class Property<T> {
     id: string;
-    defaultValue: T | undefined;
+    defaultValue: T;
 
-    constructor(id: string, defaultValue: T | undefined = undefined) {
+    constructor(id: string, defaultValue: T) {
         this.id = id;
         this.defaultValue = defaultValue;
     };
@@ -57,7 +57,7 @@ class PropertyHolder {
         this.properties[id] = value;
     }      
 
-    getProperty<T>(property: Property<T>): T | undefined {
+    getProperty<T>(property: Property<T>): T {
         if (property.id in this.properties) {
             return this.properties[property.id];
         } else {

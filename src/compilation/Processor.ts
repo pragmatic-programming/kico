@@ -34,16 +34,16 @@ export class Processor<Source, Target> {
 
     process() {};
 
-    protected getProperty<T>(property: Property<T>): T | undefined {
+    protected getProperty<T>(property: Property<T>): T {
         return this.environment.getProperty(property);
     }
 
     protected setProperty<T>(property: Property<T>, value: T) {
-        this.environment!.setProperty(property, value);
+        this.environment.setProperty(property, value);
     }  
     
     protected setPropertyUnsafe<T>(property: Property<T>, value: any) {
-        this.environment!.setPropertyAny(property.id, value);
+        this.environment.setPropertyAny(property.id, value);
     }
 
     protected getModel(): Source {
