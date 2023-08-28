@@ -17,7 +17,7 @@
 import { Environment } from "./Environment";
 import { Property } from "./PropertyHolder";
 
-class Snapshots {
+export class Snapshots {
     public static SNAPSHOT_TAG: Property<string> = new Property<string>("kico.snapshots.tag", "");
 
     public environments : Environment[] = [];
@@ -74,5 +74,3 @@ class Snapshots {
         return true;
       }
 }
-
-export { Snapshots };

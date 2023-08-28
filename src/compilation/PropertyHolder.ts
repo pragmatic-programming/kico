@@ -27,7 +27,7 @@ class Property<T> {
 
 class PropertyHolder {
 
-    protected properties: {};
+    protected properties: { [key: string]: any };
 
     constructor() {
         this.properties = {};
@@ -79,7 +79,7 @@ class PropertyHolder {
         return newHolder;
     }
 
-    public getProperties(): {} {
+    public getProperties(): { [key: string]: any } {
         return this.properties;
     }
 }

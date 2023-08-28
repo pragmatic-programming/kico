@@ -52,8 +52,8 @@ class Environment extends PropertyHolder {
         return newArray;
     }
 
-    cloneObject(object: Object):Object {
-        let newObj = {};
+    cloneObject(object: { [key: string]: any }): { [key: string]: any } {
+        let newObj: { [key: string]: any } = {};
         for (const k in object) {
             if (Array.isArray(object[k])) {
                 newObj[k] = this.cloneArray(object[k]);

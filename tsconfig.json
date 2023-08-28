@@ -9,11 +9,7 @@
 		"outDir": "lib",
 		"sourceMap": true,
 		"rootDir": "./",
-		"strict": true,   /* enable all strict type-checking options */
-		/* Additional Checks */
-		"suppressImplicitAnyIndexErrors": true,
-		// "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
-		// "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
-		"noUnusedParameters": false,  /* Report errors on unused parameters. */
+		"strict": true,   
+		"noUnusedParameters": false
 	}
 }

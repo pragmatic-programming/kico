@@ -20,7 +20,7 @@ import { Environment } from "./Environment";
 import { Processor } from "./Processor";
 import { ExternalWrapperProcessor } from "../processors/core/ExternalWrapperProcessor";
 
-function createCompilationContext(sourceModel: any, system: System): CompilationContext {
+export function createCompilationContext(sourceModel: any, system: System): CompilationContext {
     const context = new CompilationContext(system);
     context.environment.setProperty(Environment.ORIGINAL_MODEL, sourceModel);
     context.environment.setProperty(Environment.SOURCE_MODEL, sourceModel);
@@ -29,22 +29,22 @@ function createCompilationContext(sourceModel: any, system: System): Compilation
     return context;
 }
 
-function createCompilationContextFromProcessors(sourceModel: any, ...processors: typeof Processor<any, any>[]): CompilationContext {
+export function createCompilationContextFromProcessors(sourceModel: any, ...processors: typeof Processor<any, any>[]): CompilationContext {
     return createCompilationContext(sourceModel, createSystem("kico.system.auto", ...processors));
 }
 
-function compileProcessesorAndReturnResult(sourceModel: any, properties: {}, ...processors: typeof Processor<any, any>[]): any {
+export function compileProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, ...processors: typeof Processor<any, any>[]): any {
     let cc = createCompilationContextFromProcessors(sourceModel, ...processors);
-    for (var key of Object.keys(properties)) {
+    for (const key in properties) {
         cc.environment.setPropertyAny(key, properties[key]);
     }
     cc.compile();
     return cc.environment.getResult();
 }
 
-function compileExternalProcessesorAndReturnResult(sourceModel: any, properties: {}, processClass: any) {
+export function compileExternalProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, processClass: any) {
     let cc = createCompilationContextFromProcessors([ExternalWrapperProcessor], sourceModel);
-    for (var key of Object.keys(properties)) {
+    for (var key in properties) {
         cc.environment.setPropertyAny(key, properties[key]);
     }
     cc.environment.setProperty(ExternalWrapperProcessor.EXTERNAL_PROCESS, processClass);
@@ -52,6 +52,3 @@ function compileExternalProcessesorAndReturnResult(sourceModel: any, properties:
     cc.compile();
     return cc.environment.getResult();
 }
-
-export { createCompilationContext, createCompilationContextFromProcessors, 
-    compileProcessesorAndReturnResult, compileExternalProcessesorAndReturnResult };

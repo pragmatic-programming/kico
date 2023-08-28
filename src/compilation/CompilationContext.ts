@@ -18,7 +18,7 @@ import { Environment } from "./Environment";
 import { System, isSystemEntryProcessor, SystemEntryProcessor, SystemEntrySystem } from "./System";
 import { Processor } from "./Processor";
 
-class CompilationContext {
+export class CompilationContext {
 
     system: System;
     environment: Environment;
@@ -76,5 +76,3 @@ class CompilationContext {
         this.environment.setProperty(Environment.SOURCE_MODEL, this.getResult());
     }
 }
-
-export { CompilationContext };
