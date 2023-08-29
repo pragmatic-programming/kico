@@ -92,5 +92,4 @@ export class BFInterpreter extends Processor<string, string> {
         return output;
     }
 
-
 }

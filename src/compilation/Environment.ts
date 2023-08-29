@@ -16,7 +16,7 @@
 
 import { PropertyHolder, Property } from "./PropertyHolder";
 
-class Environment extends PropertyHolder {
+export class Environment extends PropertyHolder {
 
     public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel", undefined);
     public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", undefined);
@@ -75,5 +75,3 @@ class Environment extends PropertyHolder {
     }
 
 }
-
-export { Environment };
