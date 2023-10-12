@@ -15,6 +15,7 @@
  ********************************************************************************/
 
 import { PropertyHolder, Property } from "./PropertyHolder";
+import { KicoCloneable, isKicoCloneable } from "./KicoCloneable";
 
 export class Environment extends PropertyHolder {
 
@@ -26,7 +27,9 @@ export class Environment extends PropertyHolder {
         var newEnv = new Environment();
         
         for (const k in this.properties) {
-            if (Array.isArray(this.properties[k])) {
+            if (isKicoCloneable(this.properties[k])) {
+                newEnv.properties[k] = this.properties[k].clone();
+            } else if (Array.isArray(this.properties[k])) {
                 newEnv.properties[k] = this.cloneArray(this.properties[k]);
             } else if (typeof this.properties[k] == "object" && this.properties[k] !== null) {
                 newEnv.properties[k] = this.cloneObject(this.properties[k]);
@@ -41,7 +44,9 @@ export class Environment extends PropertyHolder {
     cloneArray(array: any[]): any[] {
         let newArray = [] as any[];
         for (let i = 0; i < array.length; i++) {
-            if (Array.isArray(array[i])) {
+            if (isKicoCloneable(array[i])) {
+                newArray[i] = array[i].clone();
+            } else if (Array.isArray(array[i])) {
                 newArray[i] = this.cloneArray(array[i]);
             } else if (typeof array[i] == "object" && array[i] !== null) {
                 newArray[i] = this.cloneObject(array[i]);
@@ -55,7 +60,9 @@ export class Environment extends PropertyHolder {
     cloneObject(object: { [key: string]: any }): { [key: string]: any } {
         let newObj: { [key: string]: any } = {};
         for (const k in object) {
-            if (Array.isArray(object[k])) {
+            if (isKicoCloneable(object[k])) {
+                newObj[k] = object[k].clone();
+            } else if (Array.isArray(object[k])) {
                 newObj[k] = this.cloneArray(object[k]);
             } else if (typeof object[k] == "object" && object[k] !== null) {
                 newObj[k] = this.cloneObject(object[k]);

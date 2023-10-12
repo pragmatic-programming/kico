@@ -14,18 +14,19 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-export * from './compilation/CompilationContext';
-export * from './compilation/Compile';
-export * from './compilation/Environment';
-export * from './compilation/KicoCloneable'
-export * from './compilation/Processor';
-export * from './compilation/PropertyHolder';
-export * from './compilation/Snapshots';
-export * from './compilation/System';
-export * from './processors/core/Identity';
-export * from './processors/io/ConsoleLog';
-export * from './processors/misc/Rot13';
-export * from './processors/misc/Sum';
-export * from './processors/io/LoadTextfileProcessor';
-export * from './processors/io/SaveTextfileProcessor';
-export * from './processors/core/ExternalWrapperProcessor';
+export interface KicoCloneable {
+    /**
+     * The class is mutable. If not, the cloned object may be the original object and 
+     * you are not allowed to change it in the environment. 
+     */
+    isMutable(): boolean;
+    
+    /**
+     * Returns the cloned object.
+     */
+    clone(): KicoCloneable;
+}
+
+export function isKicoCloneable(object: any): object is KicoCloneable {
+    return object.isMutable !== undefined;
+}
