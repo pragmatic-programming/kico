@@ -21,9 +21,13 @@ import { Property } from "./PropertyHolder";
 export class Processor<Source, Target> {
 
     environment: Environment;
+    preProcessors: typeof Processor<any, any>[];
+    postProcessors: typeof Processor<any, any>[];
 
     constructor() {
         this.environment = new Environment();
+        this.preProcessors = [];
+        this.postProcessors = [];
 
         if (this.getId() == "") throw new Error("Processor must have an id");
         if (this.getName() == "") throw new Error("Processor must have a name");
@@ -63,5 +67,21 @@ export class Processor<Source, Target> {
         }
 
         return compilationContext;
+    }
+
+    public addPreProcessor(processorType: typeof Processor<any, any>) {
+        this.preProcessors.push(processorType);
+    }
+
+    public addPostProcessor(processorType: typeof Processor<any, any>) {
+        this.postProcessors.push(processorType);
+    }
+
+    public getPreProcessors(): typeof Processor<any, any>[] {
+        return this.preProcessors;
+    }
+
+    public getPostProcessors(): typeof Processor<any, any>[] {
+        return this.postProcessors;
     }
 }

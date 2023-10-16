@@ -66,8 +66,11 @@ export class CompilationContext implements KicoCloneable{
         }
     }
 
-    public appendProcessor(processorType: typeof Processor) {
-        this.processors.push(new processorType());
+    public appendProcessor(processorType: typeof Processor): Processor<any, any> {
+        const processor = new processorType();
+        this.processors.push(processor);
+        
+        return processor;
     }
 
     compile() {
@@ -80,7 +83,17 @@ export class CompilationContext implements KicoCloneable{
             let processor = this.processors[i];
             this.environment = processor.environment;
 
+            processor.getPreProcessors().forEach((preProcessorType) => {
+                const preProcessor = new preProcessorType();
+                preProcessor.environment = processor.environment;
+                preProcessor.process();
+            });
             processor.process();
+            processor.getPostProcessors().forEach((postProcessorType) => {
+                const postProcessor = new postProcessorType();
+                postProcessor.environment = processor.environment;
+                postProcessor.process();
+            });            
 
             if (i < this.processors.length - 1) {
                 this.processors[i + 1].environment = processor.environment.clone();
