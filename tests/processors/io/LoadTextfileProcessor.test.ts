@@ -1,5 +1,6 @@
 import * as mock from "mock-fs";
-import { Environment, LoadTextfileProcessor } from "../../../src";
+import { Environment } from "../../../src";
+import { LoadTextfileProcessor } from "../../../src/processors/io/LoadTextfileProcessor";
 
 
 test('process', () => {
