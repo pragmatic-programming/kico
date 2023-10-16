@@ -15,12 +15,13 @@
  ********************************************************************************/
 
 import { Environment } from "./Environment";
-import { System, isSystemEntryProcessor, SystemEntryProcessor, SystemEntrySystem } from "./System";
+import { System, isSystemEntryProcessor, SystemEntryProcessor, SystemEntrySystem, SystemEntry } from "./System";
 import { Processor } from "./Processor";
+import { KicoCloneable } from "./KicoCloneable";
 
-export class CompilationContext {
+export class CompilationContext implements KicoCloneable{
 
-    system: System;
+    system: System | null;
     environment: Environment;
     startEnvironment: Environment;
     processors: Processor<any,any>[];
@@ -28,33 +29,54 @@ export class CompilationContext {
     constructor(system: System) {
         this.system = system;
         this.environment = new Environment();
+        this.environment.setProperty(Environment.CONTEXT, this);
         this.startEnvironment = this.environment;
         this.processors = [];
 
         this.populate();
     }
 
+    public isMutable(): boolean {
+        return false;
+    }
+
+    public clone(): KicoCloneable {
+        return this;
+    }
+
     protected populate() {
-        this.populateEntries(this.system);
+        if (this.system !== null) {
+            this.populateEntries(this.system);
+        }
     }
 
     protected populateEntries(system: System) {
         for (const entry of system.entries) {
-            if (isSystemEntryProcessor(entry)) {
-                const processorType = (entry as SystemEntryProcessor).processor;
-                this.processors.push(new processorType());
-            } else {
-                const systemReference = (entry as SystemEntrySystem).system;
-                this.populateEntries(systemReference);
-            }
+            this.appendSystemEntry(entry);
         }
     }    
+
+    public appendSystemEntry(entry: SystemEntry) {
+        if (isSystemEntryProcessor(entry)) {
+            const processorType = (entry as SystemEntryProcessor).processor;
+            this.processors.push(new processorType());
+        } else {
+            const systemReference = (entry as SystemEntrySystem).system;
+            this.populateEntries(systemReference);
+        }
+    }
+
+    public appendProcessor(processorType: typeof Processor) {
+        this.processors.push(new processorType());
+    }
 
     compile() {
         this.startEnvironment = this.environment;
         this.processors[0].environment = this.environment.clone();
         
-        for (let i = 0; i < this.processors.length; i++) {
+        // Using boomer loop here because the dynamic compilation can append processors.
+        let i = 0;
+        while(i < this.processors.length) {
             let processor = this.processors[i];
             this.environment = processor.environment;
 
@@ -64,6 +86,8 @@ export class CompilationContext {
                 this.processors[i + 1].environment = processor.environment.clone();
                 this.processors[i + 1].environment.shiftSourceModel();
             }
+
+            i++;
         }
 
     }
@@ -74,5 +98,15 @@ export class CompilationContext {
 
     loadResultAsModel(): void {
         this.environment.setProperty(Environment.SOURCE_MODEL, this.getResult());
+    }
+
+    getEnvironments(): Environment[] {
+        const result : Environment[] = [];
+    
+        for (const processor of this.processors) {
+            result.push(processor.environment);
+        }
+
+        return result;
     }
 }

@@ -44,7 +44,6 @@
     "clean": "rimraf lib",
     "build": "tsc -d",
     "watch": "tsc -w",
-    "test": "jest",
-    "bt": "tsc -d && jest"
+    "test": "jest"
   }
 }

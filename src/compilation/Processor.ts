@@ -14,6 +14,7 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
+import { CompilationContext } from "./CompilationContext";
 import { Environment } from "./Environment";
 import { Property } from "./PropertyHolder";
 
@@ -52,5 +53,15 @@ export class Processor<Source, Target> {
 
     protected setModel(model: Target) {
         this.setProperty(Environment.MODEL, model);
+    }
+
+    protected getCompilationContext():CompilationContext {
+        const compilationContext = this.getProperty(Environment.CONTEXT);
+        
+        if (compilationContext === null) {
+            throw new Error("A processor tried to retrieve its context, but does not have one.");
+        }
+
+        return compilationContext;
     }
 }

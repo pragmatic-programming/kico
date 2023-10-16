@@ -15,13 +15,15 @@
  ********************************************************************************/
 
 import { PropertyHolder, Property } from "./PropertyHolder";
-import { KicoCloneable, isKicoCloneable } from "./KicoCloneable";
+import { isKicoCloneable } from "./KicoCloneable";
+import { CompilationContext } from "./CompilationContext";
 
 export class Environment extends PropertyHolder {
 
     public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel", undefined);
     public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", undefined);
     public static readonly MODEL: Property<any> = new Property<any>("kico.model", undefined);
+    public static readonly CONTEXT: Property<CompilationContext | null> = new Property<CompilationContext | null>("kico.compilationContext", null);
 
     clone(): Environment {
         var newEnv = new Environment();
