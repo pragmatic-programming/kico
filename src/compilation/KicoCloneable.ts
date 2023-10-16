@@ -28,5 +28,5 @@ export interface KicoCloneable {
 }
 
 export function isKicoCloneable(object: any): object is KicoCloneable {
-    return object.isMutable !== undefined;
+    return object != undefined && object != null && object.isMutable !== undefined;
 }
