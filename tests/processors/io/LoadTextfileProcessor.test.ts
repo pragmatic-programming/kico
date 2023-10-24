@@ -15,9 +15,11 @@ test('process', () => {
     });
     const loadTextfileProcessor = new LoadTextfileProcessor();
     const filePath = folderName + '/' + fileName;
-    loadTextfileProcessor.environment.setProperty(Environment.SOURCE_MODEL, filePath);
+    loadTextfileProcessor.environment.setProperty(Environment.MODEL, filePath);
+    
     // when
     loadTextfileProcessor.process()
+    
     // then
     let actualContent = loadTextfileProcessor.environment.getResult();
     expect(actualContent).toEqual(expectedContent);

@@ -51,13 +51,25 @@ export class Processor<Source, Target> {
         this.environment.setPropertyAny(property.id, value);
     }
 
-    protected getModel(): Source {
+    protected getSourceModel(): Source {
         return this.getProperty(Environment.SOURCE_MODEL) as Source;
+    }
+
+    protected getTargetModel(): Source {
+        return this.getProperty(Environment.MODEL) as Source;
+    }
+
+    protected setTargetModel(model: Target) {
+        this.setProperty(Environment.MODEL, model);
+    }
+
+    protected getModel(): Source {
+        return this.getProperty(Environment.MODEL) as Source;
     }
 
     protected setModel(model: Target) {
         this.setProperty(Environment.MODEL, model);
-    }
+    }  
 
     protected getCompilationContext():CompilationContext {
         const compilationContext = this.getProperty(Environment.CONTEXT);

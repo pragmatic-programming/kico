@@ -7,9 +7,11 @@ test('process', () => {
     const bfInterpreter = new BFInterpreter();
     const sourceModel = ">++++++++[<+++++++++>-]<.>++++[<+++++++>-]<+.+++++++..+++.>>++++++[<+++++++>-]<+" +
         "+.------------.>++++++[<+++++++++>-]<+.<.+++.------.--------.>>>++++[<++++++++>-]<+."
-    bfInterpreter.environment.setProperty(Environment.SOURCE_MODEL, sourceModel);
+    bfInterpreter.environment.setProperty(Environment.MODEL, sourceModel);
+    
     // when
     bfInterpreter.process()
+    
     // then
     expect(bfInterpreter.environment.getResult()).toBe("Hello, World!")
 });

@@ -5,9 +5,11 @@ test('process', () => {
     // given
     const rot = new Rot13();
     const sourceModel = "Hello Rot13!"
-    rot.environment.setProperty(Environment.SOURCE_MODEL, sourceModel);
+    rot.environment.setProperty(Environment.MODEL, sourceModel);
+    
     // when
     rot.process()
+    
     // then
     expect(rot.environment.getResult()).toBe("Uryyb Ebg13!")
 });

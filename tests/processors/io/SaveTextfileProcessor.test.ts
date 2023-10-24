@@ -17,9 +17,11 @@ test("process", () => {
     const filePath = folderName + "/" + fileName;
     const expectedContent = "# Hello world!";
     saveTextfileProcessor.setFilename(filePath);
-    saveTextfileProcessor.environment.setProperty(Environment.SOURCE_MODEL, expectedContent);
+    saveTextfileProcessor.environment.setProperty(Environment.MODEL, expectedContent);
+    
     // when
     saveTextfileProcessor.process();
+    
     // then
     let actualContent = fs.readFileSync(filePath, "utf8");
     expect(actualContent).toBe(expectedContent);

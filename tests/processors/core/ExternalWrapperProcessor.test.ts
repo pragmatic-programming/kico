@@ -17,8 +17,10 @@ test('process', () => {
     const externalWrapperProcessor = new ExternalWrapperProcessor();
     const result = "result";
     externalWrapperProcessor.loadExternalProcess(new FakeExternalWrapperProcess(result));
+   
     // when
     externalWrapperProcessor.process()
+   
     // then
     expect(externalWrapperProcessor.environment.getResult()).toBe(result)
 });
