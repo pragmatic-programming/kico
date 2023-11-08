@@ -21,6 +21,7 @@ export * from './compilation/KicoCloneable'
 export * from './compilation/Processor';
 export * from './compilation/PropertyHolder';
 export * from './compilation/Snapshots';
+export * from './compilation/Status';
 export * from './compilation/System';
 export * from './processors/core/Identity';
 export * from './processors/io/ConsoleLog';

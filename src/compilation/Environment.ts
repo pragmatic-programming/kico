@@ -17,13 +17,16 @@
 import { PropertyHolder, Property } from "./PropertyHolder";
 import { isKicoCloneable } from "./KicoCloneable";
 import { CompilationContext } from "./CompilationContext";
+import { Status } from "./Status";
 
 export class Environment extends PropertyHolder {
 
-    public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel", undefined);
-    public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", undefined);
-    public static readonly MODEL: Property<any> = new Property<any>("kico.model", undefined);
-    public static readonly CONTEXT: Property<CompilationContext | null> = new Property<CompilationContext | null>("kico.compilationContext", null);
+    public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel", () => undefined);
+    public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", () => undefined);
+    public static readonly MODEL: Property<any> = new Property<any>("kico.model", () => undefined);
+    public static readonly CONTEXT: Property<CompilationContext | null> = new Property<CompilationContext | null>("kico.compilationContext", () => null);
+    public static readonly CONTINUE_ON_ERROR: Property<boolean> = new Property<boolean>("kico.continueOnError", () => false);
+    public static readonly STATUS: Property<Status> = new Property<Status>("kico.status", () => new Status());
 
     clone(): Environment {
         var newEnv = new Environment();
@@ -83,4 +86,7 @@ export class Environment extends PropertyHolder {
         return this.getProperty(Environment.MODEL);
     }
 
+    getStatus(): Status {
+        return this.getProperty(Environment.STATUS);
+    }
 }
