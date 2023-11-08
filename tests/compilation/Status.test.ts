@@ -1,34 +1,6 @@
 import {createCompilationContextFromProcessors, Environment, Identity, Processor, StatusType} from "../../src";
-
-class Warning extends Processor<any, any> {
-    
-    getId(){
-        return "kico.test.warning";
-    }
-
-    getName(){
-        return "Warning";
-    }
-
-    process() {
-        this.addWarning("There were warnings during compilation!");
-    }
-}
-
-class Error extends Processor<any, any> {
-    
-    getId(){
-        return "kico.test.error";
-    }
-
-    getName(){
-        return "Error";
-    }
-
-    process() {
-        this.addError("Abort!");
-    }
-}
+import { Warning } from "../../src/processors/core/Warning";
+import { Error } from "../../src/processors/core/Error";
 
 test("statusSuccess", () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity);
