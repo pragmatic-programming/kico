@@ -4,7 +4,7 @@ import { Property } from "../../src/compilation/PropertyHolder";
 
 class DynamicProcessor extends Processor<any, any> {
 
-    public static readonly DYNAMIC_COUNTER: Property<number> = new Property<number>("processor.dynamic.counter", 0);
+    public static readonly DYNAMIC_COUNTER: Property<number> = new Property<number>("processor.dynamic.counter", () => 0);
 
     public getId() {
         return "dynamic";
@@ -48,4 +48,3 @@ test("dynamicCompilation", async () => {
     expect(environments[8].getProperty(DynamicProcessor.DYNAMIC_COUNTER)).toBe(9);
     expect(environments[9].getProperty(DynamicProcessor.DYNAMIC_COUNTER)).toBe(10);
 });
-

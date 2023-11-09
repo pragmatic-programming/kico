@@ -17,12 +17,16 @@
 import { Processor } from "../../compilation/Processor";
 
 export class Identity extends Processor<any, any> {
-    
-    getId(){
+
+    getId() {
         return "kico.identity";
     }
 
-    getName(){
+    getName() {
         return "Identity";
+    }
+
+    async process(): Promise<void> {
+        this.addSuccess("Identity processor executed!");
     }
 }

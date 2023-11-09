@@ -17,6 +17,7 @@
 import { CompilationContext } from "./CompilationContext";
 import { Environment } from "./Environment";
 import { Property } from "./PropertyHolder";
+import { Status, StatusType } from "./Status";
 
 export class Processor<Source, Target> {
 
@@ -96,4 +97,21 @@ export class Processor<Source, Target> {
     public getPostProcessors(): typeof Processor<any, any>[] {
         return this.postProcessors;
     }
+
+    public getStatus(): Status {
+        return this.environment.getProperty(Environment.STATUS);
+    }
+
+    public addSuccess(message: string) {
+        this.getStatus().add(StatusType.SUCCESS, message);
+    }
+
+    public addWarning(message: string) {
+        this.getStatus().add(StatusType.WARNING, message);
+    }
+
+    public addError(message: string) {
+        this.getStatus().add(StatusType.ERROR, message);
+    }
+
 }

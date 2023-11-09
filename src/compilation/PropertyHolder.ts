@@ -16,9 +16,9 @@
 
 export class Property<T> {
     id: string;
-    defaultValue: T;
+    defaultValue: () => T;
 
-    constructor(id: string, defaultValue: T) {
+    constructor(id: string, defaultValue: () => T) {
         this.id = id;
         this.defaultValue = defaultValue;
     };
@@ -61,7 +61,9 @@ export class PropertyHolder {
         if (property.id in this.properties) {
             return this.properties[property.id];
         } else {
-            return property.defaultValue;
+            const defaultValue = property.defaultValue();
+            this.properties[property.id] = defaultValue;
+            return defaultValue;
         }
     }
 

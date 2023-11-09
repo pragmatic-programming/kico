@@ -18,6 +18,7 @@ import { Environment } from "./Environment";
 import { isSystemEntryProcessor, System, SystemEntry, SystemEntryProcessor, SystemEntrySystem } from "./System";
 import { Processor } from "./Processor";
 import { KicoCloneable } from "./KicoCloneable";
+import { Status, StatusType } from "./Status";
 
 export class CompilationContext implements KicoCloneable {
 
@@ -25,6 +26,7 @@ export class CompilationContext implements KicoCloneable {
     environment: Environment;
     startEnvironment: Environment;
     processors: Processor<any, any>[];
+    stageCounter: number;
 
     constructor(system: System) {
         this.system = system;
@@ -32,6 +34,7 @@ export class CompilationContext implements KicoCloneable {
         this.environment.setProperty(Environment.CONTEXT, this);
         this.startEnvironment = this.environment;
         this.processors = [];
+        this.stageCounter = 0;
 
         this.populate();
     }
@@ -78,9 +81,9 @@ export class CompilationContext implements KicoCloneable {
         this.processors[0].environment = this.environment.clone();
 
         // Using boomer loop here because the dynamic compilation can append processors.
-        let i = 0;
-        while (i < this.processors.length) {
-            let processor = this.processors[i];
+        this.stageCounter = 0;
+        while(this.stageCounter < this.processors.length) {
+            let processor = this.processors[this.stageCounter];
             this.environment = processor.environment;
 
             processor.getPreProcessors().forEach(async (preProcessorType) => {
@@ -95,12 +98,14 @@ export class CompilationContext implements KicoCloneable {
                 await postProcessor.process();
             });
 
-            if (i < this.processors.length - 1) {
-                this.processors[i + 1].environment = processor.environment.clone();
-                this.processors[i + 1].environment.shiftSourceModel();
-            }
+            this.stageCounter++;
 
-            i++;
+            if (!this.environment.getProperty(Environment.CONTINUE_ON_ERROR) && this.environment.getStatus().hasErrors()) break;
+
+            if (this.stageCounter < this.processors.length) {
+                this.processors[this.stageCounter].environment = processor.environment.clone();
+                this.processors[this.stageCounter].environment.shiftSourceModel();
+            }
         }
 
     }
@@ -109,17 +114,62 @@ export class CompilationContext implements KicoCloneable {
         return this.environment.getResult();
     }
 
+
     loadResultAsModel(): void {
         this.environment.setProperty(Environment.SOURCE_MODEL, this.getResult());
     }
 
     getEnvironments(): Environment[] {
-        const result: Environment[] = [];
+        const result : Environment[] = [];
 
-        for (const processor of this.processors) {
-            result.push(processor.environment);
+        for (let i = 0; i < this.stageCounter; i++) {
+            result.push(this.processors[i].environment);
         }
 
         return result;
+    }
+
+    getEnvironment(): Environment {
+        return this.environment;
+    }
+
+    getStageCounter(): number {
+        return this.stageCounter;
+    }
+
+    getStatus(): Status {
+        return this.environment.getProperty(Environment.STATUS);
+    }
+
+    /* Retrieves the Status of the whole compilation chain. */
+    getContextStatus(): StatusType {
+        // if (this.getEnvironments().some((environment) => environment.getStatus().hasErrors())) return StatusType.ERROR;
+        // if (this.getEnvironments().some((environment) => environment.getStatus().hasWarnings())) return StatusType.WARNING;
+        // if (this.getEnvironments().some((environment) => environment.getStatus().hasSuccesses())) return StatusType.SUCCESS;
+        // return StatusType.UNDEFINED;
+
+        const environments = this.getEnvironments();
+        let hasWarnings = false;
+        let hasSuccesses = false;
+
+        for (const environment of environments) {
+            if (environment.getStatus().hasErrors()) {
+                return StatusType.ERROR;
+            }
+            if (environment.getStatus().hasWarnings()) {
+                hasWarnings = true;
+            }
+            else if (environment.getStatus().hasSuccesses()) {
+                hasSuccesses = true;
+            }
+        }
+
+        if (hasWarnings) {
+            return StatusType.WARNING;
+        }
+        if (hasSuccesses) {
+            return StatusType.SUCCESS;
+        }
+        return StatusType.UNDEFINED;
     }
 }

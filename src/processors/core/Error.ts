@@ -14,19 +14,19 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-export * from './compilation/CompilationContext';
-export * from './compilation/Compile';
-export * from './compilation/Environment';
-export * from './compilation/KicoCloneable'
-export * from './compilation/Processor';
-export * from './compilation/PropertyHolder';
-export * from './compilation/Snapshots';
-export * from './compilation/Status';
-export * from './compilation/System';
-export * from './processors/core/Error';
-export * from './processors/core/ExternalWrapperProcessor';
-export * from './processors/core/Identity';
-export * from './processors/core/Warning';
-export * from './processors/io/ConsoleLog';
-export * from './processors/misc/Rot13';
-export * from './processors/misc/Sum';
+import { Processor } from "../../compilation/Processor";
+
+export class Error extends Processor<any, any> {
+
+    getId() {
+        return "kico.test.error";
+    }
+
+    getName() {
+        return "Error";
+    }
+
+    async process(): Promise<void> {
+        this.addError("Abort!");
+    }
+}
