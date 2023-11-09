@@ -38,7 +38,13 @@ export class Processor<Source, Target> {
 
     getName(): string { return ""; }
 
-    async process(): Promise<void> {};
+    isAsync() { return false; }
+
+    async processAsync(): Promise<void> {
+        this.process();
+    };
+
+    process(): void {}
 
     protected getProperty<T>(property: Property<T>): T {
         return this.environment.getProperty(property);

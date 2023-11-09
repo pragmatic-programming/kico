@@ -26,7 +26,7 @@ export class BFInterpreter extends Processor<string, string> {
         return "BF Interpreter";
     }
 
-   async process(): Promise<void> {
+   process() {
         this.setModel(this.interpret(this.getModel(), Array.from({ length: 65536 }, () => 0), 0, 0));
     }
 

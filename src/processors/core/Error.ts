@@ -26,7 +26,7 @@ export class Error extends Processor<any, any> {
         return "Error";
     }
 
-    async process(): Promise<void> {
+    process() {
         this.addError("Abort!");
     }
 }

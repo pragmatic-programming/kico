@@ -38,5 +38,5 @@ const codes : string[] = [
 
 for (let i = 0; i < codes.length; i++) {
     const context = createCompilationContextFromProcessors(codes[i], BFInterpreter, ConsoleLog);
-    context.compile().then();
+    context.compile();
 }

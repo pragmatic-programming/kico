@@ -26,7 +26,7 @@ export class Warning extends Processor<any, any> {
         return "Warning";
     }
 
-    async process(): Promise<void> {
+    process() {
         this.addWarning("There were warnings during compilation!");
     }
 }

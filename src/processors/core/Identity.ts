@@ -26,7 +26,7 @@ export class Identity extends Processor<any, any> {
         return "Identity";
     }
 
-    async process(): Promise<void> {
+    process() {
         this.addSuccess("Identity processor executed!");
     }
 }

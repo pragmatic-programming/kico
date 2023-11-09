@@ -26,7 +26,7 @@ export class Commandline<T> extends Processor<any, T> {
         return "Commandline";
     }
 
-   async process(): Promise<void> {
+    process() {
         if (process.argv.length > 2) {
             const model = JSON.parse(process.argv[2]) as T;
             this.setModel(model);

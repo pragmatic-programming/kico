@@ -27,9 +27,9 @@ class DynamicProcessor extends Processor<any, any> {
     }
 }
 
-test("dynamicCompilation", async () => {
+test("dynamicCompilation", () => {
     const context = createCompilationContextFromProcessors("Hello World!", DynamicProcessor);
-    await context.compile();
+    context.compile();
 
     expect(context).toBeDefined();
     expect(context.processors.length).toBe(10);

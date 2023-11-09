@@ -2,18 +2,18 @@ import { createCompilationContextFromProcessors, Environment, Identity, StatusTy
 import { Warning } from "../../src/processors/core/Warning";
 import { Error } from "../../src/processors/core/Error";
 
-test("statusSuccess", async () => {
+test("statusSuccess", () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity);
-    await context.compile();
+    context.compileAsync();
 
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(true);
     expect(context.getStatus().hasSuccesses()).toBe(true);
     expect(context.getContextStatus()).toBe(StatusType.SUCCESS);
 });
 
-test("statusWarning", async () => {
+test("statusWarning", () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity, Warning);
-    await context.compile();
+    context.compileAsync();
 
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(false);
     expect(context.getStatus().hasSuccesses()).toBe(false);
@@ -22,9 +22,9 @@ test("statusWarning", async () => {
     expect(context.getContextStatus()).toBe(StatusType.WARNING);
 });
 
-test("statusError", async () => {
+test("statusError", () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity, Error, Warning);
-    await context.compile();
+    context.compileAsync();
 
     expect(context.getEnvironments().length).toBe(2);
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(false);
@@ -36,10 +36,10 @@ test("statusError", async () => {
     expect(context.getContextStatus()).toBe(StatusType.ERROR);
 });
 
-test("statusErrorContinue", async () => {
+test("statusErrorContinue", () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity, Error, Warning);
     context.getEnvironment().setProperty(Environment.CONTINUE_ON_ERROR, true);
-    await context.compile();
+    context.compileAsync();
 
     expect(context.getEnvironments().length).toBe(3);
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(false);

@@ -20,4 +20,4 @@ import { ConsoleLog } from "../processors/io/ConsoleLog";
 import { Sum } from "../processors/misc/Sum";
 
 const context = createCompilationContextFromProcessors([1, 2, 3], Commandline<number[]>, Sum, ConsoleLog);
-context.compile().then();
+context.compile();

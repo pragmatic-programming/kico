@@ -16,17 +16,21 @@
 
 import { Processor } from "../../compilation/Processor";
 
-export class ConsoleLog extends Processor<any, any> {
+export class AsyncIdentity extends Processor<any, any> {
 
-    getId(){
-        return "kico.console.log";
+    getId() {
+        return "kico.identity";
     }
 
-    getName(){
-        return "Console Log";
+    getName() {
+        return "Identity";
     }
 
-   process() {
-        console.log(this.getModel());
+    isAsync() {
+        return true;
+    }
+
+    process() {
+        this.addSuccess("AsyncIdentity processor executed!");
     }
 }

@@ -27,7 +27,7 @@ export class LoadTextfileProcessor extends Processor<string, string> {
         return "Load Textfile"
     }
 
-   async process(): Promise<void> {
+   process() {
         const model = this.getModel();
         var s = fs.readFileSync(model, 'utf8');
         this.setModel(s);

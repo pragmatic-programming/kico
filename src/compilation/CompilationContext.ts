@@ -76,7 +76,7 @@ export class CompilationContext implements KicoCloneable {
         return processor;
     }
 
-    async compile() {
+    async compileAsync() {
         this.startEnvironment = this.environment;
         this.processors[0].environment = this.environment.clone();
 
@@ -89,13 +89,27 @@ export class CompilationContext implements KicoCloneable {
             processor.getPreProcessors().forEach(async (preProcessorType) => {
                 const preProcessor = new preProcessorType();
                 preProcessor.environment = processor.environment;
-                await preProcessor.process();
+                if (preProcessor.isAsync()) {
+                    await preProcessor.processAsync();
+                } else {
+                    preProcessor.process();
+                }
             });
-            await processor.process();
+
+            if (processor.isAsync()) {
+                await processor.processAsync();
+            } else {
+                processor.process();
+            }
+
             processor.getPostProcessors().forEach(async (postProcessorType) => {
                 const postProcessor = new postProcessorType();
                 postProcessor.environment = processor.environment;
-                await postProcessor.process();
+                if (postProcessor.isAsync()) {
+                    await postProcessor.processAsync();
+                } else {
+                    postProcessor.processAsync();
+                }
             });
 
             this.stageCounter++;
@@ -108,6 +122,45 @@ export class CompilationContext implements KicoCloneable {
             }
         }
 
+    }
+    
+    compile() {
+        this.startEnvironment = this.environment;
+        this.processors[0].environment = this.environment.clone();
+
+        if (this.processors.some((processor) => processor.isAsync())) {
+            throw new Error("Cannot compile synchronously when there are asynchronous processors.");
+        }
+
+        // Using boomer loop here because the dynamic compilation can append processors.
+        this.stageCounter = 0;
+        while(this.stageCounter < this.processors.length) {
+            let processor = this.processors[this.stageCounter];
+            this.environment = processor.environment;
+
+            processor.getPreProcessors().forEach(async (preProcessorType) => {
+                const preProcessor = new preProcessorType();
+                preProcessor.environment = processor.environment;
+                preProcessor.process();
+            });
+
+            processor.process();
+
+            processor.getPostProcessors().forEach(async (postProcessorType) => {
+                const postProcessor = new postProcessorType();
+                postProcessor.environment = processor.environment;
+                postProcessor.processAsync();
+            });
+
+            this.stageCounter++;
+
+            if (!this.environment.getProperty(Environment.CONTINUE_ON_ERROR) && this.environment.getStatus().hasErrors()) break;
+
+            if (this.stageCounter < this.processors.length) {
+                this.processors[this.stageCounter].environment = processor.environment.clone();
+                this.processors[this.stageCounter].environment.shiftSourceModel();
+            }
+        }
     }
 
     getResult(): any {
