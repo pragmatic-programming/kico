@@ -30,9 +30,9 @@ export class SaveTextfileProcessor extends Processor<string, string> {
         return "Save Textfile"
     }
 
-    process() {
+   async process(): Promise<void> {
         const model = this.getModel();
-        
+
         fs.writeFileSync(this.getFilename(), model, { flag:'w' })
     }
 

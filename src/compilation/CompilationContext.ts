@@ -15,16 +15,16 @@
  ********************************************************************************/
 
 import { Environment } from "./Environment";
-import { System, isSystemEntryProcessor, SystemEntryProcessor, SystemEntrySystem, SystemEntry } from "./System";
+import { isSystemEntryProcessor, System, SystemEntry, SystemEntryProcessor, SystemEntrySystem } from "./System";
 import { Processor } from "./Processor";
 import { KicoCloneable } from "./KicoCloneable";
 
-export class CompilationContext implements KicoCloneable{
+export class CompilationContext implements KicoCloneable {
 
     system: System | null;
     environment: Environment;
     startEnvironment: Environment;
-    processors: Processor<any,any>[];
+    processors: Processor<any, any>[];
 
     constructor(system: System) {
         this.system = system;
@@ -54,7 +54,7 @@ export class CompilationContext implements KicoCloneable{
         for (const entry of system.entries) {
             this.appendSystemEntry(entry);
         }
-    }    
+    }
 
     public appendSystemEntry(entry: SystemEntry) {
         if (isSystemEntryProcessor(entry)) {
@@ -69,31 +69,31 @@ export class CompilationContext implements KicoCloneable{
     public appendProcessor(processorType: typeof Processor): Processor<any, any> {
         const processor = new processorType();
         this.processors.push(processor);
-        
+
         return processor;
     }
 
-    compile() {
+    async compile() {
         this.startEnvironment = this.environment;
         this.processors[0].environment = this.environment.clone();
-        
+
         // Using boomer loop here because the dynamic compilation can append processors.
         let i = 0;
-        while(i < this.processors.length) {
+        while (i < this.processors.length) {
             let processor = this.processors[i];
             this.environment = processor.environment;
 
-            processor.getPreProcessors().forEach((preProcessorType) => {
+            processor.getPreProcessors().forEach(async (preProcessorType) => {
                 const preProcessor = new preProcessorType();
                 preProcessor.environment = processor.environment;
-                preProcessor.process();
+                await preProcessor.process();
             });
-            processor.process();
-            processor.getPostProcessors().forEach((postProcessorType) => {
+            await processor.process();
+            processor.getPostProcessors().forEach(async (postProcessorType) => {
                 const postProcessor = new postProcessorType();
                 postProcessor.environment = processor.environment;
-                postProcessor.process();
-            });            
+                await postProcessor.process();
+            });
 
             if (i < this.processors.length - 1) {
                 this.processors[i + 1].environment = processor.environment.clone();
@@ -114,8 +114,8 @@ export class CompilationContext implements KicoCloneable{
     }
 
     getEnvironments(): Environment[] {
-        const result : Environment[] = [];
-    
+        const result: Environment[] = [];
+
         for (const processor of this.processors) {
             result.push(processor.environment);
         }

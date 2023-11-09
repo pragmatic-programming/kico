@@ -26,7 +26,7 @@ export class ConsoleLog extends Processor<any, any> {
         return "Console Log";
     }
 
-    process() {
+   async process(): Promise<void> {
         console.log(this.getModel());
     }
 }

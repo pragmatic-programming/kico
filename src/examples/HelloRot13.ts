@@ -19,6 +19,7 @@ import { ConsoleLog } from "../processors/io/ConsoleLog";
 import { Rot13 } from "../processors/misc/Rot13";
 
 const context = createCompilationContextFromProcessors("Hello Rot13!", Rot13, ConsoleLog);
-context.compile();
-context.loadResultAsModel();
-context.compile();
+context.compile().then(() => {
+    context.loadResultAsModel();
+    return context.compile();
+});
