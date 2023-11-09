@@ -108,7 +108,7 @@ export class CompilationContext implements KicoCloneable {
                 if (postProcessor.isAsync()) {
                     await postProcessor.processAsync();
                 } else {
-                    postProcessor.processAsync();
+                    postProcessor.process();
                 }
             });
 
@@ -123,7 +123,7 @@ export class CompilationContext implements KicoCloneable {
         }
 
     }
-    
+
     compile() {
         this.startEnvironment = this.environment;
         this.processors[0].environment = this.environment.clone();
@@ -149,7 +149,7 @@ export class CompilationContext implements KicoCloneable {
             processor.getPostProcessors().forEach(async (postProcessorType) => {
                 const postProcessor = new postProcessorType();
                 postProcessor.environment = processor.environment;
-                postProcessor.processAsync();
+                postProcessor.process();
             });
 
             this.stageCounter++;
