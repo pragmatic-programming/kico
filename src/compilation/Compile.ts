@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { CompilationContext } from "./CompilationContext";
-import { System, createSystem } from "./System";
+import { createSystem, System } from "./System";
 import { Environment } from "./Environment";
 import { Processor } from "./Processor";
 import { ExternalWrapperProcessor } from "../processors/core/ExternalWrapperProcessor";
@@ -33,22 +33,22 @@ export function createCompilationContextFromProcessors(sourceModel: any, ...proc
     return createCompilationContext(sourceModel, createSystem("kico.system.auto", ...processors));
 }
 
-export function compileProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, ...processors: typeof Processor<any, any>[]): any {
+export async function compileProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, ...processors: typeof Processor<any, any>[]): Promise<any> {
     let cc = createCompilationContextFromProcessors(sourceModel, ...processors);
     for (const key in properties) {
         cc.environment.setPropertyAny(key, properties[key]);
     }
-    cc.compile();
+    await cc.compile();
     return cc.environment.getResult();
 }
 
-export function compileExternalProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, processClass: any) {
+export async function compileExternalProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, processClass: any): Promise<any>  {
     let cc = createCompilationContextFromProcessors([ExternalWrapperProcessor], sourceModel);
     for (var key in properties) {
         cc.environment.setPropertyAny(key, properties[key]);
     }
     cc.environment.setProperty(ExternalWrapperProcessor.EXTERNAL_PROCESS, processClass);
     cc.environment.setProperty(ExternalWrapperProcessor.EXTERNAL_PROPERTIES, properties);
-    cc.compile();
+    await cc.compile();
     return cc.environment.getResult();
 }
