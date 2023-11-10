@@ -14,20 +14,20 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
 
-class Property<T> {
+export class Property<T> {
     id: string;
-    defaultValue: T;
+    defaultValue: () => T;
 
-    constructor(id: string, defaultValue: T) {
+    constructor(id: string, defaultValue: () => T) {
         this.id = id;
         this.defaultValue = defaultValue;
     };
 }
 
 
-class PropertyHolder {
+export class PropertyHolder {
 
-    protected properties: {};
+    protected properties: { [key: string]: any };
 
     constructor() {
         this.properties = {};
@@ -61,7 +61,9 @@ class PropertyHolder {
         if (property.id in this.properties) {
             return this.properties[property.id];
         } else {
-            return property.defaultValue;
+            const defaultValue = property.defaultValue();
+            this.properties[property.id] = defaultValue;
+            return defaultValue;
         }
     }
 
@@ -79,9 +81,7 @@ class PropertyHolder {
         return newHolder;
     }
 
-    public getProperties(): {} {
+    public getProperties(): { [key: string]: any } {
         return this.properties;
     }
 }
-
-export { Property, PropertyHolder };

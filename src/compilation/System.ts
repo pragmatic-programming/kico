@@ -16,21 +16,21 @@
 
 import { Processor } from "./Processor";
 
-type SystemEntry = SystemEntryProcessor | SystemEntrySystem;
+export type SystemEntry = SystemEntryProcessor | SystemEntrySystem;
 
-interface SystemEntryProcessor {
+export interface SystemEntryProcessor {
     processor: typeof Processor;
 }
 
-interface SystemEntrySystem {
+export interface SystemEntrySystem {
     system: System;
 }
 
-function isSystemEntryProcessor(systemEntry: SystemEntry): boolean {
+export function isSystemEntryProcessor(systemEntry: SystemEntry): boolean {
     return 'processor' in systemEntry;
 }
 
-class System {
+export class System {
     id: string;
     entries: SystemEntry[];
 
@@ -44,7 +44,7 @@ class System {
     }
 }
 
-function createSystem(id: string, ...processors: typeof Processor<any, any>[]): System {
+export function createSystem(id: string, ...processors: typeof Processor<any, any>[]): System {
     let systemEntries: SystemEntry[] = [];
     for (const p of processors) {
         systemEntries.push({ processor: p } as SystemEntryProcessor)
@@ -52,5 +52,3 @@ function createSystem(id: string, ...processors: typeof Processor<any, any>[]): 
 
     return new System(id, systemEntries);
 }
-
-export { System, SystemEntry, SystemEntryProcessor, SystemEntrySystem, isSystemEntryProcessor, createSystem };

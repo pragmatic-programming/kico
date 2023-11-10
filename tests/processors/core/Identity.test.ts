@@ -5,8 +5,10 @@ test('process', () => {
     const identity = new Identity();
     const sourceModel = "sourceModel"
     identity.environment.setProperty(Environment.MODEL, sourceModel);
+
     // when
     identity.process()
+
     // then
     expect(identity.environment.getResult()).toBe(sourceModel)
 });

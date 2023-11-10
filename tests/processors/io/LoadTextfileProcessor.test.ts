@@ -1,5 +1,6 @@
 import * as mock from "mock-fs";
-import { Environment, LoadTextfileProcessor } from "../../../src";
+import { Environment } from "../../../src";
+import { LoadTextfileProcessor } from "../../../src/processors/io/LoadTextfileProcessor";
 
 
 test('process', () => {
@@ -14,9 +15,11 @@ test('process', () => {
     });
     const loadTextfileProcessor = new LoadTextfileProcessor();
     const filePath = folderName + '/' + fileName;
-    loadTextfileProcessor.environment.setProperty(Environment.SOURCE_MODEL, filePath);
+    loadTextfileProcessor.environment.setProperty(Environment.MODEL, filePath);
+    
     // when
     loadTextfileProcessor.process()
+    
     // then
     let actualContent = loadTextfileProcessor.environment.getResult();
     expect(actualContent).toEqual(expectedContent);

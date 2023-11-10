@@ -15,18 +15,26 @@
  ********************************************************************************/
 
 import { PropertyHolder, Property } from "./PropertyHolder";
+import { isKicoCloneable } from "./KicoCloneable";
+import { CompilationContext } from "./CompilationContext";
+import { Status } from "./Status";
 
-class Environment extends PropertyHolder {
+export class Environment extends PropertyHolder {
 
-    public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel", undefined);
-    public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", undefined);
-    public static readonly MODEL: Property<any> = new Property<any>("kico.model", undefined);
+    public static readonly ORIGINAL_MODEL: Property<any> = new Property<any>("kico.originalModel", () => undefined);
+    public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", () => undefined);
+    public static readonly MODEL: Property<any> = new Property<any>("kico.model", () => undefined);
+    public static readonly CONTEXT: Property<CompilationContext | null> = new Property<CompilationContext | null>("kico.compilationContext", () => null);
+    public static readonly CONTINUE_ON_ERROR: Property<boolean> = new Property<boolean>("kico.continueOnError", () => false);
+    public static readonly STATUS: Property<Status> = new Property<Status>("kico.status", () => new Status());
 
     clone(): Environment {
         var newEnv = new Environment();
         
         for (const k in this.properties) {
-            if (Array.isArray(this.properties[k])) {
+            if (isKicoCloneable(this.properties[k])) {
+                newEnv.properties[k] = this.properties[k].clone();
+            } else if (Array.isArray(this.properties[k])) {
                 newEnv.properties[k] = this.cloneArray(this.properties[k]);
             } else if (typeof this.properties[k] == "object" && this.properties[k] !== null) {
                 newEnv.properties[k] = this.cloneObject(this.properties[k]);
@@ -41,7 +49,9 @@ class Environment extends PropertyHolder {
     cloneArray(array: any[]): any[] {
         let newArray = [] as any[];
         for (let i = 0; i < array.length; i++) {
-            if (Array.isArray(array[i])) {
+            if (isKicoCloneable(array[i])) {
+                newArray[i] = array[i].clone();
+            } else if (Array.isArray(array[i])) {
                 newArray[i] = this.cloneArray(array[i]);
             } else if (typeof array[i] == "object" && array[i] !== null) {
                 newArray[i] = this.cloneObject(array[i]);
@@ -52,10 +62,12 @@ class Environment extends PropertyHolder {
         return newArray;
     }
 
-    cloneObject(object: Object):Object {
-        let newObj = {};
+    cloneObject(object: { [key: string]: any }): { [key: string]: any } {
+        let newObj: { [key: string]: any } = {};
         for (const k in object) {
-            if (Array.isArray(object[k])) {
+            if (isKicoCloneable(object[k])) {
+                newObj[k] = object[k].clone();
+            } else if (Array.isArray(object[k])) {
                 newObj[k] = this.cloneArray(object[k]);
             } else if (typeof object[k] == "object" && object[k] !== null) {
                 newObj[k] = this.cloneObject(object[k]);
@@ -74,6 +86,7 @@ class Environment extends PropertyHolder {
         return this.getProperty(Environment.MODEL);
     }
 
+    getStatus(): Status {
+        return this.getProperty(Environment.STATUS);
+    }
 }
-
-export { Environment };

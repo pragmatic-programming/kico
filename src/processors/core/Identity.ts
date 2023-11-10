@@ -25,4 +25,8 @@ export class Identity extends Processor<any, any> {
     getName(){
         return "Identity";
     }
+
+    process() {
+        this.addSuccess("Identity processor executed!");
+    }
 }
