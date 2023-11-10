@@ -38,7 +38,7 @@ export class Processor<Source, Target> {
 
     getName(): string { return ""; }
 
-    process() {};
+    async process(): Promise<void> {};
 
     protected getProperty<T>(property: Property<T>): T {
         return this.environment.getProperty(property);
@@ -46,8 +46,8 @@ export class Processor<Source, Target> {
 
     protected setProperty<T>(property: Property<T>, value: T) {
         this.environment.setProperty(property, value);
-    }  
-    
+    }
+
     protected setPropertyUnsafe<T>(property: Property<T>, value: any) {
         this.environment.setPropertyAny(property.id, value);
     }
@@ -70,11 +70,11 @@ export class Processor<Source, Target> {
 
     protected setModel(model: Target) {
         this.setProperty(Environment.MODEL, model);
-    }  
+    }
 
     protected getCompilationContext():CompilationContext {
         const compilationContext = this.getProperty(Environment.CONTEXT);
-        
+
         if (compilationContext === null) {
             throw new Error("A processor tried to retrieve its context, but does not have one.");
         }

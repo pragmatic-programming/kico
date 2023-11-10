@@ -1,19 +1,19 @@
-import {createCompilationContextFromProcessors, Environment, Identity, Processor, StatusType} from "../../src";
+import { createCompilationContextFromProcessors, Environment, Identity, StatusType } from "../../src";
 import { Warning } from "../../src/processors/core/Warning";
 import { Error } from "../../src/processors/core/Error";
 
-test("statusSuccess", () => {
+test("statusSuccess", async () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity);
-    context.compile();
+    await context.compile();
 
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(true);
     expect(context.getStatus().hasSuccesses()).toBe(true);
     expect(context.getContextStatus()).toBe(StatusType.SUCCESS);
 });
 
-test("statusWarning", () => {
+test("statusWarning", async () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity, Warning);
-    context.compile();
+    await context.compile();
 
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(false);
     expect(context.getStatus().hasSuccesses()).toBe(false);
@@ -22,9 +22,9 @@ test("statusWarning", () => {
     expect(context.getContextStatus()).toBe(StatusType.WARNING);
 });
 
-test("statusError", () => {
+test("statusError", async () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity, Error, Warning);
-    context.compile();
+    await context.compile();
 
     expect(context.getEnvironments().length).toBe(2);
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(false);
@@ -36,10 +36,10 @@ test("statusError", () => {
     expect(context.getContextStatus()).toBe(StatusType.ERROR);
 });
 
-test("statusErrorContinue", () => {
+test("statusErrorContinue", async () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity, Error, Warning);
     context.getEnvironment().setProperty(Environment.CONTINUE_ON_ERROR, true);
-    context.compile();
+    await context.compile();
 
     expect(context.getEnvironments().length).toBe(3);
     expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(false);

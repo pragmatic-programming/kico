@@ -17,16 +17,16 @@
 import { Processor } from "../../compilation/Processor";
 
 export class Warning extends Processor<any, any> {
-    
-    getId(){
+
+    getId() {
         return "kico.test.warning";
     }
 
-    getName(){
+    getName() {
         return "Warning";
     }
 
-    process() {
+    async process(): Promise<void> {
         this.addWarning("There were warnings during compilation!");
     }
 }

@@ -14,7 +14,7 @@ class DynamicProcessor extends Processor<any, any> {
         return "Dynamic";
     }
 
-    public process() {
+    public async process() {
         const context = this.getCompilationContext();
 
         let counter = this.getProperty(DynamicProcessor.DYNAMIC_COUNTER);
@@ -27,15 +27,15 @@ class DynamicProcessor extends Processor<any, any> {
     }
 }
 
-test("dynamicCompilation", () => {
+test("dynamicCompilation", async () => {
     const context = createCompilationContextFromProcessors("Hello World!", DynamicProcessor);
-    context.compile();
+    await context.compile();
 
     expect(context).toBeDefined();
     expect(context.processors.length).toBe(10);
-    
+
     const environments = context.getEnvironments();
-    
+
     expect(environments.length).toBe(10);
     expect(environments[0].getProperty(DynamicProcessor.DYNAMIC_COUNTER)).toBe(1);
     expect(environments[1].getProperty(DynamicProcessor.DYNAMIC_COUNTER)).toBe(2);

@@ -17,16 +17,16 @@
 import { Processor } from "../../compilation/Processor";
 
 export class Error extends Processor<any, any> {
-    
-    getId(){
+
+    getId() {
         return "kico.test.error";
     }
 
-    getName(){
+    getName() {
         return "Error";
     }
 
-    process() {
+    async process(): Promise<void> {
         this.addError("Abort!");
     }
 }

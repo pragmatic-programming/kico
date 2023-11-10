@@ -21,7 +21,7 @@ import { Environment } from "../../compilation/Environment";
     * This processor sums up all numbers in the model.
     * The model is an array of numbers.
     * The result is a number.
-    * 
+    *
     * Example:
     *   Input: [1,2,3]
     *   Output: 6
@@ -36,7 +36,7 @@ export class Sum extends Processor<number[], number> {
         return "Sum";
     }
 
-    process() {
+   async process(): Promise<void> {
         let model = this.environment.getProperty(Environment.SOURCE_MODEL) as number[];
         const sum = Array.from(model).reduce(
             (accumulator, currentValue) => accumulator + currentValue, 0

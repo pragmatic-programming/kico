@@ -18,4 +18,4 @@ import { createCompilationContextFromProcessors } from "../compilation/Compile";
 import { ConsoleLog } from "../processors/io/ConsoleLog";
 
 const context = createCompilationContextFromProcessors("Hello World!", ConsoleLog);
-context.compile();
+context.compile().then();
