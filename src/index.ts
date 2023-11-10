@@ -23,6 +23,7 @@ export * from './compilation/PropertyHolder';
 export * from './compilation/Snapshots';
 export * from './compilation/Status';
 export * from './compilation/System';
+export * from './processors/core/AsyncIdentity';
 export * from './processors/core/Error';
 export * from './processors/core/ExternalWrapperProcessor';
 export * from './processors/core/Identity';

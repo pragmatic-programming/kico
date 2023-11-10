@@ -31,7 +31,7 @@ export class Rot13 extends Processor<string, string> {
         return "Rot13";
     }
 
-   async process(): Promise<void> {
+   process() {
         const model = this.getModel();
         var s = "";
 

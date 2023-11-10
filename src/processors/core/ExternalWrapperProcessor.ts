@@ -33,7 +33,7 @@ export class ExternalWrapperProcessor extends Processor<any, any> {
         return "External Wrapper";
     }
 
-   async process(): Promise<void> {
+   process() {
         this.setModel(
             (this.getProperty(ExternalWrapperProcessor.EXTERNAL_PROCESS) as IExternalWrapperProcess).process(
                 this.getModel(), this.getProperty(ExternalWrapperProcessor.EXTERNAL_PROPERTIES)!

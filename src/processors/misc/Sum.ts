@@ -36,7 +36,7 @@ export class Sum extends Processor<number[], number> {
         return "Sum";
     }
 
-   async process(): Promise<void> {
+   process() {
         let model = this.environment.getProperty(Environment.SOURCE_MODEL) as number[];
         const sum = Array.from(model).reduce(
             (accumulator, currentValue) => accumulator + currentValue, 0
