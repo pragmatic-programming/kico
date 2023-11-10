@@ -33,22 +33,22 @@ export function createCompilationContextFromProcessors(sourceModel: any, ...proc
     return createCompilationContext(sourceModel, createSystem("kico.system.auto", ...processors));
 }
 
-export async function compileProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, ...processors: typeof Processor<any, any>[]): Promise<any> {
+export function compileProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, ...processors: typeof Processor<any, any>[]): Promise<any> {
     let cc = createCompilationContextFromProcessors(sourceModel, ...processors);
     for (const key in properties) {
         cc.environment.setPropertyAny(key, properties[key]);
     }
-    await cc.compile();
+    cc.compile();
     return cc.environment.getResult();
 }
 
-export async function compileExternalProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, processClass: any): Promise<any>  {
+export function compileExternalProcessesorAndReturnResult(sourceModel: any, properties: { [key: string]: any }, processClass: any): Promise<any>  {
     let cc = createCompilationContextFromProcessors([ExternalWrapperProcessor], sourceModel);
     for (var key in properties) {
         cc.environment.setPropertyAny(key, properties[key]);
     }
     cc.environment.setProperty(ExternalWrapperProcessor.EXTERNAL_PROCESS, processClass);
     cc.environment.setProperty(ExternalWrapperProcessor.EXTERNAL_PROPERTIES, properties);
-    await cc.compile();
+    cc.compile();
     return cc.environment.getResult();
 }
