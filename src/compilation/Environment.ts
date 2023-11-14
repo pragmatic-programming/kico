@@ -18,6 +18,7 @@ import { PropertyHolder, Property } from "./PropertyHolder";
 import { isKicoCloneable } from "./KicoCloneable";
 import { CompilationContext } from "./CompilationContext";
 import { Status } from "./Status";
+import { ContinueOnError } from "./EnvironmentSettings";
 
 export class Environment extends PropertyHolder {
 
@@ -25,7 +26,7 @@ export class Environment extends PropertyHolder {
     public static readonly SOURCE_MODEL: Property<any> = new Property<any>("kico.sourceModel", () => undefined);
     public static readonly MODEL: Property<any> = new Property<any>("kico.model", () => undefined);
     public static readonly CONTEXT: Property<CompilationContext | null> = new Property<CompilationContext | null>("kico.compilationContext", () => null);
-    public static readonly CONTINUE_ON_ERROR: Property<boolean> = new Property<boolean>("kico.continueOnError", () => false);
+    public static readonly CONTINUE_ON_ERROR: Property<ContinueOnError> = new Property<ContinueOnError>("kico.continueOnError", () => ContinueOnError.STOP_AT_ONCE);
     public static readonly STATUS: Property<Status> = new Property<Status>("kico.status", () => new Status());
 
     clone(): Environment {

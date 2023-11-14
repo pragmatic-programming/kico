@@ -1,4 +1,4 @@
-import { createCompilationContextFromProcessors, Environment, Identity, StatusType } from "../../src";
+import { ContinueOnError, createCompilationContextFromProcessors, Environment, Identity, StatusType } from "../../src";
 import { Warning } from "../../src/processors/core/Warning";
 import { Error } from "../../src/processors/core/Error";
 
@@ -36,9 +36,24 @@ test("statusError", () => {
     expect(context.getContextStatus()).toBe(StatusType.ERROR);
 });
 
+test("statusErrorAfterStage", () => {
+    const context = createCompilationContextFromProcessors("Hello World!", Identity, Error, Warning);
+    context.getEnvironment().setProperty(Environment.CONTINUE_ON_ERROR, ContinueOnError.STOP_AFTER_STAGE);
+    context.compileAsync();
+
+    expect(context.getEnvironments().length).toBe(2);
+    expect(context.getEnvironment().getStatus().hasSuccesses()).toBe(false);
+    expect(context.getStatus().hasSuccesses()).toBe(false);
+    expect(context.getEnvironment().getStatus().hasWarnings()).toBe(false);
+    expect(context.getStatus().hasWarnings()).toBe(false);
+    expect(context.getEnvironment().getStatus().hasErrors()).toBe(true);
+    expect(context.getStatus().hasErrors()).toBe(true);
+    expect(context.getContextStatus()).toBe(StatusType.ERROR);
+});
+
 test("statusErrorContinue", () => {
     const context = createCompilationContextFromProcessors("Hello World!", Identity, Error, Warning);
-    context.getEnvironment().setProperty(Environment.CONTINUE_ON_ERROR, true);
+    context.getEnvironment().setProperty(Environment.CONTINUE_ON_ERROR, ContinueOnError.CONTINUE);
     context.compileAsync();
 
     expect(context.getEnvironments().length).toBe(3);

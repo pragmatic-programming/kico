@@ -19,6 +19,7 @@ import { isSystemEntryProcessor, System, SystemEntry, SystemEntryProcessor, Syst
 import { Processor } from "./Processor";
 import { KicoCloneable } from "./KicoCloneable";
 import { Status, StatusType } from "./Status";
+import { ContinueOnError } from "./EnvironmentSettings";
 
 export class CompilationContext implements KicoCloneable {
 
@@ -102,6 +103,11 @@ export class CompilationContext implements KicoCloneable {
                 processor.process();
             }
 
+            if (this.environment.getProperty(Environment.CONTINUE_ON_ERROR) == ContinueOnError.STOP_AT_ONCE && this.environment.getStatus().hasErrors()) {
+                this.stageCounter++;
+                break;
+            }
+
             processor.getPostProcessors().forEach(async (postProcessorType) => {
                 const postProcessor = new postProcessorType();
                 postProcessor.environment = processor.environment;
@@ -114,7 +120,7 @@ export class CompilationContext implements KicoCloneable {
 
             this.stageCounter++;
 
-            if (!this.environment.getProperty(Environment.CONTINUE_ON_ERROR) && this.environment.getStatus().hasErrors()) break;
+            if (this.environment.getProperty(Environment.CONTINUE_ON_ERROR) == ContinueOnError.STOP_AFTER_STAGE && this.environment.getStatus().hasErrors()) break;
 
             if (this.stageCounter < this.processors.length) {
                 this.processors[this.stageCounter].environment = processor.environment.clone();
