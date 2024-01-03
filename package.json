@@ -1,6 +1,6 @@
 {
   "name": "@pragmatic-programming/kico",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Kieler Compiler Core in TypeScript",
   "license": "(EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0)",
   "keywords": [
