@@ -1,13 +1,14 @@
-# KiCo Core
+# KiCo
 
 # Kieler Compiler Core in TypeScript
 
 This repository contains a standalone, light-weight re-implementation of the [KIELER Semantics](https://github.com/kieler/semantics) compiler in TypeScript.
 
-## Build
+```shell
+# build project
+yarn
+yarn run build
 
-  * npm run build
-
-## Tests
-
-  * yarn run jest
+# run tests
+yarn run test
+```
