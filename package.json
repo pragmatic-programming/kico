@@ -23,6 +23,9 @@
     "type": "git",
     "url": "https://github.com/pragmatic-programming/kico.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "files": [
     "lib",
     "src",
