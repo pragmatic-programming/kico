@@ -19,6 +19,7 @@ import { createSystem, System } from "./System";
 import { Environment } from "./Environment";
 import { Processor } from "./Processor";
 import { ExternalWrapperProcessor } from "../processors/core/ExternalWrapperProcessor";
+import { KicoRegistry } from "./Registry";
 
 export function createCompilationContext(sourceModel: any, system: System): CompilationContext {
     const context = new CompilationContext(system);
@@ -30,6 +31,18 @@ export function createCompilationContext(sourceModel: any, system: System): Comp
 }
 
 export function createCompilationContextFromProcessors(sourceModel: any, ...processors: typeof Processor<any, any>[]): CompilationContext {
+    return createCompilationContext(sourceModel, createSystem("kico.system.auto", ...processors));
+}
+
+export function createCompilationContextFromRegistry(sourceModel: any, ...ids: string[]): CompilationContext {
+    const processors: typeof Processor<any, any>[] = [];
+    for (const id of ids) {
+        const processorType = KicoRegistry.getProcessor(id);
+        if (!processorType) {
+            throw new Error(`Processor with id ${id} was not found in registry.`);
+        }
+        processors.push(processorType);
+    }
     return createCompilationContext(sourceModel, createSystem("kico.system.auto", ...processors));
 }
 

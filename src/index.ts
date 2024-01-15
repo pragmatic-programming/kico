@@ -32,3 +32,4 @@ export * from './processors/core/Warning';
 export * from './processors/io/ConsoleLog';
 export * from './processors/misc/Rot13';
 export * from './processors/misc/Sum';
+export * from './processors/KiCoProcessors';
