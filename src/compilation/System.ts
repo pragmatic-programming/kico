@@ -39,6 +39,10 @@ export class System {
         this.entries = entries;
     }
 
+    getId(): string { 
+        return this.id; 
+    }
+
     clone(): System {
         return new System(this.id, this.entries);
     }

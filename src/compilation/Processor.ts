@@ -34,11 +34,17 @@ export class Processor<Source, Target> {
         if (this.getName() == "") throw new Error("Processor must have a name");
     }
 
-    getId(): string { return ""; }
+    getId(): string { 
+        return ""; 
+    }
 
-    getName(): string { return ""; }
+    getName(): string { 
+        return ""; 
+    }
 
-    isAsync() { return false; }
+    isAsync() { 
+        return false; 
+    }
 
     async processAsync(): Promise<void> {
         this.process();
