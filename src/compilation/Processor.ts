@@ -19,11 +19,13 @@ import { Environment } from "./Environment";
 import { Property } from "./PropertyHolder";
 import { Status, StatusType } from "./Status";
 
-export class Processor<Source, Target> {
+export type ExtendedProcessorType<T extends { new(): Processor<any, any> }> = T & { new(): Processor<any, any> };
+
+export abstract class Processor<Source, Target> {
 
     environment: Environment;
-    preProcessors: typeof Processor<any, any>[];
-    postProcessors: typeof Processor<any, any>[];
+    preProcessors: ExtendedProcessorType<any>[];
+    postProcessors: ExtendedProcessorType<any>[];
 
     constructor() {
         this.environment = new Environment();
@@ -34,23 +36,20 @@ export class Processor<Source, Target> {
         if (this.getName() == "") throw new Error("Processor must have a name");
     }
 
-    getId(): string { 
-        return ""; 
-    }
+    public abstract getId(): string;
 
-    getName(): string { 
-        return ""; 
-    }
+    public abstract getName(): string;
+    
+    public abstract process(): void;
 
-    isAsync() { 
+    public isAsync() { 
         return false; 
     }
 
-    async processAsync(): Promise<void> {
+    public async processAsync(): Promise<void> {
         this.process();
     };
 
-    process(): void {}
 
     protected getProperty<T>(property: Property<T>): T {
         return this.environment.getProperty(property);
@@ -94,19 +93,19 @@ export class Processor<Source, Target> {
         return compilationContext;
     }
 
-    public addPreProcessor(processorType: typeof Processor<any, any>) {
+    public addPreProcessor(processorType: ExtendedProcessorType<any>) {
         this.preProcessors.push(processorType);
     }
 
-    public addPostProcessor(processorType: typeof Processor<any, any>) {
+    public addPostProcessor(processorType: ExtendedProcessorType<any>) {
         this.postProcessors.push(processorType);
     }
 
-    public getPreProcessors(): typeof Processor<any, any>[] {
+    public getPreProcessors(): ExtendedProcessorType<any>[] {
         return this.preProcessors;
     }
 
-    public getPostProcessors(): typeof Processor<any, any>[] {
+    public getPostProcessors(): ExtendedProcessorType<any>[] {
         return this.postProcessors;
     }
 

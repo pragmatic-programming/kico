@@ -70,7 +70,7 @@ export class CompilationContext implements KicoCloneable {
         }
     }
 
-    public appendProcessor(processorType: typeof Processor): Processor<any, any> {
+    public appendProcessor<T extends { new(): Processor<any, any> }>(processorType: T): Processor<any, any> {
         const processor = new processorType();
         this.processors.push(processor);
 

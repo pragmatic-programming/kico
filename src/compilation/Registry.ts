@@ -24,7 +24,7 @@ export class KicoRegistry {
         KicoRegistry.processorRegistry.set(id, processor);
     }
 
-    public static registerType(processor: typeof Processor<any, any>) {
+    public static registerType<T extends { new(): Processor<any, any> }>(processor: T) {
         const processorInstance = new processor();
         KicoRegistry.processorRegistry.set(processorInstance.getId(), processor);
     }
