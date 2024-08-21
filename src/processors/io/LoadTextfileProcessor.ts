@@ -29,7 +29,7 @@ export class LoadTextfileProcessor extends Processor<string, string> {
 
    process() {
         const model = this.getModel();
-        var s = fs.readFileSync(model, 'utf8');
+        var s = fs.readFileSync(model).toString('utf-8');
         this.setModel(s);
     }
 }
