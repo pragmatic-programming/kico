@@ -23,7 +23,7 @@ test("process", () => {
     saveTextfileProcessor.process();
     
     // then
-    let actualContent = fs.readFileSync(filePath, "utf8");
+    let actualContent = fs.readFileSync(filePath).toString('utf-8');
     expect(actualContent).toBe(expectedContent);
     mock.restore();
 });
